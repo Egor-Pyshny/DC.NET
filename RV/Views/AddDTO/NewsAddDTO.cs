@@ -10,5 +10,7 @@ namespace RV.Views
         public string title { get; set; }
         [Required]
         public string content { get; set; }
+        public DateTime? created { get; set; } = null;
+        public DateTime? modified { get; set; } = null;
     }
 }

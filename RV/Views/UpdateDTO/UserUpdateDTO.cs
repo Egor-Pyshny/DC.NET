@@ -10,5 +10,6 @@ namespace RV.Views.DTO
         public string password { get; set; } = null;
         public string firstname { get; set; } = null;
         public string lastname { get; set; } = null;
+        public DateTime? modified { get; set; } = null;
     }
 }

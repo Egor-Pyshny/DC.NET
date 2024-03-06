@@ -9,7 +9,5 @@ namespace RV.Views.DTO
         public int? userId { get; set; } = null;
         public string title { get; set; } = null;
         public string content { get; set; } = null;
-        public DateTime? created { get; set; } = null;
-        public DateTime? modified { get; set; } = null;
     }
 }

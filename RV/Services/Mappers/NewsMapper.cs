@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RV.Models;
+using RV.Views;
 using RV.Views.DTO;
 
 namespace RV.Services.Mappers
@@ -9,6 +10,7 @@ namespace RV.Services.Mappers
         public NewsMapper()
         {
             CreateMap<News, NewsDTO>();
+            CreateMap<NewsAddDTO, News>().ReverseMap();
         }
     }
 }

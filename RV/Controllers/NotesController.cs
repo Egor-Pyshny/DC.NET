@@ -1,41 +1,43 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using RV.Services.DataProviderServices;
 using RV.Views.DTO;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace RV.Controllers
 {
-    [Route("api/v1.0/users")]
+    [Route("api/v1.0/notes")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class NotesController : ControllerBase
     {
         private readonly IDataProvider _context;
 
-        public UsersController(IDataProvider context)
+        public NotesController(IDataProvider context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public IActionResult GetNotes()
         {
-            return StatusCode(200, _context.GetUsers());
+            return StatusCode(200, _context.GetNotes());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(int id)
+        public IActionResult GetNote(int id)
         {
-            return StatusCode(200, _context.GetUser(id));
+            return StatusCode(200, _context.GetNote(id));
         }
 
         [HttpPut]
-        public IActionResult UpdateUser([FromBody]UserUpdateDTO user)
+        public IActionResult UpdateNote([FromBody] NoteUpdateDTO note)
         {
             try
             {
-                return StatusCode(200, _context.UpdateUser(user));
-            } catch (DbUpdateException ex) {
+                return StatusCode(200, _context.UpdateNote(note));
+            }
+            catch (DbUpdateException ex)
+            {
                 string errorCode = "400";
                 string hash = ex.Message.GetHashCode().ToString();
                 errorCode += hash[0];
@@ -49,14 +51,14 @@ namespace RV.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostUser([FromBody]UserAddDTO user)
+        public IActionResult PostNote([FromBody] NoteAddDTO note)
         {
             try
-            {
-                return StatusCode(201, _context.CreateUser(user));
+            { 
+                return StatusCode(201, _context.CreateNote(note));
             }
             catch (DbUpdateException ex)
-            {                
+            {
                 int statusCode = 400;
                 if (ex.InnerException is PostgresException postgresException)
                 {
@@ -78,9 +80,9 @@ namespace RV.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteNote(int id)
         {
-            int res = _context.DeleteUser(id);
+            int res = _context.DeleteNote(id);
             if (res == 0)
                 return StatusCode(400);
             else

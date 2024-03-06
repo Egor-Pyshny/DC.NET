@@ -8,12 +8,12 @@ using RV.Services.Mappers;
 var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("Host=localhost;Port=5432;Database=distcomp;Username=postgres;Password=postgres");
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection), ServiceLifetime.Singleton);
-builder.Services.AddSingleton<IUserDataProvider, SQLUserDataProvider>();
-builder.Services.AddSingleton<INewsDataProvider, SQLNewsDataProvider>();
-builder.Services.AddSingleton<INoteDataProvider, SQLNoteDataProvider>();
-builder.Services.AddSingleton<IStickerDataProvider, SQLStickerDataProvider>();
-builder.Services.AddSingleton<IDataProvider, SQLDataProvider>();
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
+builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();
+builder.Services.AddTransient<INoteDataProvider, SQLNoteDataProvider>();
+builder.Services.AddTransient<IStickerDataProvider, SQLStickerDataProvider>();
+builder.Services.AddTransient<IDataProvider, SQLDataProvider>();
 
 builder.Services.AddAutoMapper(typeof(UserMapper));
 builder.Services.AddAutoMapper(typeof(NewsMapper));

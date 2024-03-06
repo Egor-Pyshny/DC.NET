@@ -11,6 +11,7 @@ namespace RV.Models
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
         { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=distcomp;Username=postgres;Password=postgres");
@@ -55,6 +56,13 @@ namespace RV.Models
 
             modelBuilder.Entity<Sticker>()
                 .ToTable(t => t.HasCheckConstraint("len(name) < 2", "LENGTH(\"name\") > 2"));
+
+            modelBuilder.Entity<User>()
+                .HasIndex(p => p.login).IsUnique();
+            modelBuilder.Entity<News>()
+                .HasIndex(p => p.title).IsUnique();
+            modelBuilder.Entity<Sticker>()
+                .HasIndex(p => p.name).IsUnique();
         }
     } 
 }

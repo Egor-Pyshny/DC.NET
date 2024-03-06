@@ -1,41 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using RV.Models;
 using RV.Services.DataProviderServices;
 using RV.Views.DTO;
 
 namespace RV.Controllers
 {
-    [Route("api/v1.0/users")]
+    [Route("api/v1.0/stickers")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class StickersController : ControllerBase
     {
         private readonly IDataProvider _context;
 
-        public UsersController(IDataProvider context)
+        public StickersController(IDataProvider context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public IActionResult GetStickers()
         {
-            return StatusCode(200, _context.GetUsers());
+            return StatusCode(200, _context.GetStickers());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(int id)
+        public IActionResult GetSticker(int id)
         {
-            return StatusCode(200, _context.GetUser(id));
+            return StatusCode(200, _context.GetSticker(id));
         }
 
         [HttpPut]
-        public IActionResult UpdateUser([FromBody]UserUpdateDTO user)
+        public IActionResult UpdateSticker([FromBody] StickerUpdateDTO sticker)
         {
             try
             {
-                return StatusCode(200, _context.UpdateUser(user));
-            } catch (DbUpdateException ex) {
+                return StatusCode(200, _context.UpdateSticker(sticker));
+            }
+            catch (DbUpdateException ex)
+            {
                 string errorCode = "400";
                 string hash = ex.Message.GetHashCode().ToString();
                 errorCode += hash[0];
@@ -49,14 +53,13 @@ namespace RV.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostUser([FromBody]UserAddDTO user)
+        public IActionResult PostSticker([FromBody] StickerAddDTO sticker)
         {
-            try
-            {
-                return StatusCode(201, _context.CreateUser(user));
+            try { 
+                return StatusCode(201, _context.CreateSticker(sticker));
             }
             catch (DbUpdateException ex)
-            {                
+            {
                 int statusCode = 400;
                 if (ex.InnerException is PostgresException postgresException)
                 {
@@ -78,9 +81,9 @@ namespace RV.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult DeleteSticker(int id)
         {
-            int res = _context.DeleteUser(id);
+            int res = _context.DeleteSticker(id);
             if (res == 0)
                 return StatusCode(400);
             else

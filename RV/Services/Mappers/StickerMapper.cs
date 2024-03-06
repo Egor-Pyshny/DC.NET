@@ -10,6 +10,7 @@ namespace RV.Services.Mappers
         public StickerMapper()
         {
             CreateMap<Sticker, StickerDTO>();
+            CreateMap<StickerAddDTO, Sticker>().ReverseMap();
         }
     }
 }

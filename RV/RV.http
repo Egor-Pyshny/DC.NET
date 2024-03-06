@@ -1,4 +1,4 @@
-@RV_HostAddress = http://localhost:5216
+@RV_HostAddress = http://localhost:24110
 
 GET {{RV_HostAddress}}/weatherforecast/
 Accept: application/json

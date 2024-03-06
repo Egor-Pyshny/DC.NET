@@ -9,6 +9,7 @@ namespace RV.Services.Mappers
         public NoteMapper()
         {
             CreateMap<Note, NoteDTO>();
+            CreateMap<NoteAddDTO, Note>().ReverseMap();
         }
     }
 }
