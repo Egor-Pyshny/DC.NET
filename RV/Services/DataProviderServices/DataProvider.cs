@@ -1,10 +1,6 @@
-﻿using RV.Models;
-using RV.Views;
-using RV.Views.DTO;
-
-namespace RV.Services.DataProviderServices.SQL
+﻿namespace RV.Services.DataProviderServices
 {
-    public class SQLDataProvider : IDataProvider
+    public class DataProvider : IDataProvider
     {
         public IUserDataProvider userDataProvider { get; }
 
@@ -14,10 +10,10 @@ namespace RV.Services.DataProviderServices.SQL
 
         public IStickerDataProvider stickerDataProvider { get; }
 
-        public SQLDataProvider(
-            IUserDataProvider userDataProvider, 
-            INewsDataProvider newsDataProvider, 
-            INoteDataProvider noteDataProvider, 
+        public DataProvider(
+            IUserDataProvider userDataProvider,
+            INewsDataProvider newsDataProvider,
+            INoteDataProvider noteDataProvider,
             IStickerDataProvider stickerDataProvider
             )
         {

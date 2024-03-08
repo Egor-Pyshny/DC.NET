@@ -13,7 +13,7 @@ builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
 builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();
 builder.Services.AddTransient<INoteDataProvider, SQLNoteDataProvider>();
 builder.Services.AddTransient<IStickerDataProvider, SQLStickerDataProvider>();
-builder.Services.AddTransient<IDataProvider, SQLDataProvider>();
+builder.Services.AddTransient<IDataProvider, DataProvider>();
 
 builder.Services.AddAutoMapper(typeof(UserMapper));
 builder.Services.AddAutoMapper(typeof(NewsMapper));
