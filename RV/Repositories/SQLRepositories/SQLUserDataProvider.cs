@@ -1,15 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RV.Models;
-using RV.Repository;
-using RV.Views.DTO;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 
 namespace RV.Repositories.SQLRepositories
 {
-    public class SQLUserRepository : IUserRepository
+    public class SQLUserRepository : IRepository<User>
     {
         private ApplicationContext _dbContext;
 
@@ -17,21 +12,21 @@ namespace RV.Repositories.SQLRepositories
         {
             _dbContext = dbContext;
         }
-        public User CreateUser(User item)
+        public User Create(User item)
         {
             _dbContext.Add(item);
             _dbContext.SaveChanges();      
             return item;
         }
 
-        public int DeleteUser(int id)
+        public int Delete(int id)
         {
             int res = _dbContext.Users.Where(u => u.id == id).ExecuteDelete();
             _dbContext.SaveChanges();
             return res;
         }
 
-        public User GetUser(int id)
+        public User Get(int id)
         {
             var res = _dbContext.Users.Where(u => u.id == id).ToList();
             User u;
@@ -43,12 +38,12 @@ namespace RV.Repositories.SQLRepositories
             else return null;
         }
 
-        public List<User> GetUsers()
+        public List<User> GetAll()
         {
             return _dbContext.Users.ToList();
         }
 
-        public User UpdateUser(User item)
+        public User Update(User item)
         {
             var res = _dbContext.Users.Where(u => u.id == item.id).ToList();
             User u;

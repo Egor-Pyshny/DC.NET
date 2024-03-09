@@ -6,17 +6,21 @@ using RV.Services.DataProviderServices.SQL;
 using RV.Services.Mappers;
 using RV.Repositories;
 using RV.Repositories.SQLRepositories;
-using RV.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connection = builder.Configuration.GetConnectionString("Host=localhost;Port=5432;Database=distcomp;Username=postgres;Password=postgres");
+string connection = builder.Configuration.GetConnectionString("Host=localhost;" +
+    "Port=5432;" +
+    "Database=distcomp;" +
+    "Username=postgres;" +
+    "Password=postgres"
+    );
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
 
-builder.Services.AddTransient<IUserRepository, SQLUserRepository>();
-builder.Services.AddTransient<INewsRepository, SQLNewsRepository>();
-builder.Services.AddTransient<INoteRepository, SQLNoteRepository>();
-builder.Services.AddTransient<IStickerRepository, SQLStickerRepository>();
+builder.Services.AddTransient<IRepository<User>, SQLUserRepository>();
+builder.Services.AddTransient<IRepository<News>, SQLNewsRepository>();
+builder.Services.AddTransient<IRepository<Note>, SQLNoteRepository>();
+builder.Services.AddTransient<IRepository<Sticker>, SQLStickerRepository>();
 
 builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
 builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();

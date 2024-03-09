@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using RV.Models;
-using RV.Repository;
+using RV.Repositories;
 using RV.Views.DTO;
 
 namespace RV.Services.DataProviderServices.SQL
 {
     public class SQLStickerDataProvider : IStickerDataProvider
     {
-        private IStickerRepository _repository;
+        private IRepository<Sticker> _repository;
         private IMapper _mapper;
 
-        public SQLStickerDataProvider(IStickerRepository repository, IMapper mapper)
+        public SQLStickerDataProvider(IRepository<Sticker> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -18,25 +18,25 @@ namespace RV.Services.DataProviderServices.SQL
         public StickerDTO CreateSticker(StickerAddDTO item)
         {
             Sticker s = _mapper.Map<Sticker>(item);
-            var res = _repository.CreateSticker(s);
+            var res = _repository.Create(s);
             return _mapper.Map<StickerDTO>(res);
         }
 
         public int DeleteSticker(int id)
         {
-            int res = _repository.DeleteSticker(id);
+            int res = _repository.Delete(id);
             return res;
         }
 
         public StickerDTO GetSticker(int id)
         {
-            return _mapper.Map<StickerDTO>(_repository.GetSticker(id));
+            return _mapper.Map<StickerDTO>(_repository.Get(id));
         }
 
         public List<StickerDTO> GetStickers()
         {
             List<StickerDTO> res = [];
-            foreach (Sticker s in _repository.GetStickers())
+            foreach (Sticker s in _repository.GetAll())
             {
                 res.Add(_mapper.Map<StickerDTO>(s));
             }
@@ -46,7 +46,7 @@ namespace RV.Services.DataProviderServices.SQL
         public StickerDTO UpdateSticker(StickerUpdateDTO item)
         {
             var n = _mapper.Map<Sticker>(item);
-            var res = _repository.UpdateSticker(n);
+            var res = _repository.Update(n);
             return _mapper.Map<StickerDTO>(res);
         }
     }

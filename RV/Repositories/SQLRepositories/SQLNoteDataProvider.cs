@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RV.Models;
-using RV.Repository;
 
 namespace RV.Repositories.SQLRepositories
 {
-    public class SQLNoteRepository : INoteRepository
+    public class SQLNoteRepository : IRepository<Note>
     {
         private ApplicationContext _dbContext;
 
@@ -12,21 +11,21 @@ namespace RV.Repositories.SQLRepositories
         {
             _dbContext = dbContext;
         }
-        public Note CreateNote(Note item)
+        public Note Create(Note item)
         {
             _dbContext.Add(item);
             _dbContext.SaveChanges();
             return item;
         }
 
-        public int DeleteNote(int id)
+        public int Delete(int id)
         {
             int res = _dbContext.Notes.Where(n => n.id == id).ExecuteDelete();
             _dbContext.SaveChanges();
             return res;
         }
 
-        public Note GetNote(int id)
+        public Note Get(int id)
         {
             var res = _dbContext.Notes.Where(n => n.id == id).ToList();
             Note n;
@@ -38,12 +37,12 @@ namespace RV.Repositories.SQLRepositories
             else return null;
         }
 
-        public List<Note> GetNotes()
+        public List<Note> GetAll()
         {            
             return _dbContext.Notes.ToList();
         }
 
-        public Note UpdateNote(Note item)
+        public Note Update(Note item)
         {
             var res = _dbContext.Notes.Where(n => n.id == item.id).ToList();
             Note n;

@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RV.Models;
-using RV.Repository;
 
 namespace RV.Repositories.SQLRepositories
 {
-    public class SQLStickerRepository : IStickerRepository
+    public class SQLStickerRepository : IRepository<Sticker>
     {
         private ApplicationContext _dbContext;
 
@@ -12,21 +11,21 @@ namespace RV.Repositories.SQLRepositories
         {
             _dbContext = dbContext;
         }
-        public Sticker CreateSticker(Sticker item)
+        public Sticker Create(Sticker item)
         {
             _dbContext.Add(item);
             _dbContext.SaveChanges();
             return item;
         }
 
-        public int DeleteSticker(int id)
+        public int Delete(int id)
         {
             int res = _dbContext.Stickers.Where(s => s.id == id).ExecuteDelete();
             _dbContext.SaveChanges();
             return res;
         }
 
-        public Sticker GetSticker(int id)
+        public Sticker Get(int id)
         {
             var res = _dbContext.Stickers.Where(s => s.id == id).ToList();
             Sticker s;
@@ -38,12 +37,12 @@ namespace RV.Repositories.SQLRepositories
             else return null;
         }
 
-        public List<Sticker> GetStickers()
+        public List<Sticker> GetAll()
         {            
             return _dbContext.Stickers.ToList();
         }
 
-        public Sticker UpdateSticker(Sticker item)
+        public Sticker Update(Sticker item)
         {
             var res = _dbContext.Stickers.Where(s => s.id == item.id).ToList();
             Sticker s;

@@ -3,7 +3,7 @@ using RV.Models;
 
 namespace RV.Repositories.SQLRepositories
 {
-    public class SQLNewsRepository : INewsRepository
+    public class SQLNewsRepository : IRepository<News>
     {
         private ApplicationContext _dbContext;
 
@@ -12,21 +12,21 @@ namespace RV.Repositories.SQLRepositories
             _dbContext = dbContext;
         }
 
-        public News CreateNews(News item)
+        public News Create(News item)
         {
             _dbContext.Add(item);
             _dbContext.SaveChanges();
             return item;
         }
 
-        public int DeleteNews(int id)
+        public int Delete(int id)
         {
             int res = _dbContext.News.Where(n => n.id == id).ExecuteDelete();
             _dbContext.SaveChanges();
             return res;
         }
 
-        public News GetNew(int id)
+        public News Get(int id)
         {
             var res = _dbContext.News.Where(n => n.id == id).ToList();
             News n;
@@ -38,12 +38,12 @@ namespace RV.Repositories.SQLRepositories
             else return null;
         }
 
-        public List<News> GetNews()
+        public List<News> GetAll()
         {
             return _dbContext.News.ToList();
         }
 
-        public News UpdateNews(News item)
+        public News Update(News item)
         {
             var res = _dbContext.News.Where(n => n.id == item.id).ToList();
             News n;
