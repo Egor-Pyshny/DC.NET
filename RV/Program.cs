@@ -4,15 +4,25 @@ using AutoMapper;
 using RV.Services.DataProviderServices;
 using RV.Services.DataProviderServices.SQL;
 using RV.Services.Mappers;
+using RV.Repositories;
+using RV.Repositories.SQLRepositories;
+using RV.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("Host=localhost;Port=5432;Database=distcomp;Username=postgres;Password=postgres");
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+
+builder.Services.AddTransient<IUserRepository, SQLUserRepository>();
+builder.Services.AddTransient<INewsRepository, SQLNewsRepository>();
+builder.Services.AddTransient<INoteRepository, SQLNoteRepository>();
+builder.Services.AddTransient<IStickerRepository, SQLStickerRepository>();
+
 builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
 builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();
 builder.Services.AddTransient<INoteDataProvider, SQLNoteDataProvider>();
 builder.Services.AddTransient<IStickerDataProvider, SQLStickerDataProvider>();
+
 builder.Services.AddTransient<IDataProvider, DataProvider>();
 
 builder.Services.AddAutoMapper(typeof(UserMapper));

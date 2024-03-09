@@ -1,51 +1,42 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using RV.Models;
+using RV.Repository;
 using RV.Views.DTO;
 
 namespace RV.Services.DataProviderServices.SQL
 {
     public class SQLNoteDataProvider : INoteDataProvider
     {
-        private ApplicationContext _dbContext;
+        private INoteRepository _repository;
         private IMapper _mapper;
 
-        public SQLNoteDataProvider(ApplicationContext dbContext, IMapper mapper)
+        public SQLNoteDataProvider(INoteRepository repository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _repository = repository;
             _mapper = mapper;
         }
         public NoteDTO CreateNote(NoteAddDTO item)
         {
             Note n = _mapper.Map<Note>(item);
-            _dbContext.Add(n);
-            _dbContext.SaveChanges();
-            return _mapper.Map<NoteDTO>(n);
+            var res = _repository.CreateNote(n);
+            return _mapper.Map<NoteDTO>(res);
         }
 
         public int DeleteNote(int id)
         {
-            int res = _dbContext.Notes.Where(n => n.id == id).ExecuteDelete();
-            _dbContext.SaveChanges();
+            int res = _repository.DeleteNote(id);
             return res;
         }
 
         public NoteDTO GetNote(int id)
         {
-            var res = _dbContext.Notes.Where(n => n.id == id).ToList();
-            Note n;
-            if (res.Count > 0)
-            {
-                n = res[0];
-                return _mapper.Map<NoteDTO>(n);
-            }
-            else return null;
+            return _mapper.Map<NoteDTO>(_repository.GetNote(id));
         }
 
         public List<NoteDTO> GetNotes()
         {
             List<NoteDTO> res = [];
-            foreach (Note n in _dbContext.Notes)
+            foreach (Note n in _repository.GetNotes())
             {
                 res.Add(_mapper.Map<NoteDTO>(n));
             }
@@ -54,24 +45,9 @@ namespace RV.Services.DataProviderServices.SQL
 
         public NoteDTO UpdateNote(NoteUpdateDTO item)
         {
-            var res = _dbContext.Notes.Where(n => n.id == item.id).ToList();
-            Note n;
-            if (res.Count > 0)
-            {
-                n = res[0];
-            }
-            else return null;
-            if (item.newsId != null)
-            {
-                n.newsId = (int)item.newsId;
-            }
-            if (item.content != null)
-            {
-                n.content = item.content;
-            }
-            _dbContext.Update(n);
-            _dbContext.SaveChanges();
-            return _mapper.Map<NoteDTO>(n);
+            var n = _mapper.Map<Note>(item);
+            var res = _repository.UpdateNote(n);
+            return _mapper.Map<NoteDTO>(res);
         }
     }
 }

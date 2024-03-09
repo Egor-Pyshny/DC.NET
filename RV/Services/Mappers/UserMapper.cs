@@ -10,6 +10,7 @@ namespace RV.Services.Mappers
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserAddDTO, User>().ReverseMap();
+            CreateMap<User, UserUpdateDTO>().ReverseMap();
         }
     }
 }

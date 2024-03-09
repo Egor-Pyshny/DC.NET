@@ -20,11 +20,11 @@ namespace RV.Models
 
         [MaxLength(64)]
         [Required]
-        public string firstName { get; set; }
+        public string firstname { get; set; }
 
         [MaxLength(64)]
         [Required]
-        public string lastName { get; set; }
+        public string lastname { get; set; }
 
         public List<News>? News { get; set; } = new();
     }

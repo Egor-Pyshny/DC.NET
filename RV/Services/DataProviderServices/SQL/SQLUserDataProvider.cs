@@ -1,87 +1,53 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using RV.Models;
+using RV.Repository;
 using RV.Views.DTO;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 
 namespace RV.Services.DataProviderServices.SQL
 {
     public class SQLUserDataProvider : IUserDataProvider
     {
-        private ApplicationContext _dbContext;
+        private IUserRepository _repository;
         private IMapper _mapper;
 
-        public SQLUserDataProvider(ApplicationContext dbContext, IMapper mapper)
+        public SQLUserDataProvider(IUserRepository repository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _repository = repository;
             _mapper = mapper;
         }
         public UserDTO CreateUser(UserAddDTO item)
         {
             User u = _mapper.Map<User>(item);
-            _dbContext.Add(u);
-            _dbContext.SaveChanges();      
-            return _mapper.Map<UserDTO>(u);
+            var res = _repository.CreateUser(u);
+            return _mapper.Map<UserDTO>(res);
         }
 
         public int DeleteUser(int id)
         {
-            int res = _dbContext.Users.Where(u => u.id == id).ExecuteDelete();
-            _dbContext.SaveChanges();
+            int res = _repository.DeleteUser(id);
             return res;
         }
 
         public UserDTO GetUser(int id)
         {
-            var res = _dbContext.Users.Where(u => u.id == id).ToList();
-            User u;
-            if (res.Count > 0)
-            {
-                u = res[0];
-                return _mapper.Map<UserDTO>(u);
-            }
-            else return null;
+            return _mapper.Map<UserDTO>(_repository.GetUser(id));
         }
 
         public List<UserDTO> GetUsers()
         {
             List<UserDTO> res = [];
-            foreach (User u in _dbContext.Users) {
+            foreach (User u in _repository.GetUsers())
+            {
                 res.Add(_mapper.Map<UserDTO>(u));
             }
             return res;
-        }
+        }   
 
         public UserDTO UpdateUser(UserUpdateDTO item)
         {
-            var res = _dbContext.Users.Where(u => u.id == item.id).ToList();
-            User u;
-            if (res.Count > 0)
-            {
-                u = res[0];
-            }
-            else return null;
-            if (item.login != null)
-            {
-                u.login = item.login;
-            }
-            if (item.lastname != null) 
-            { 
-                u.lastName = item.lastname;
-            }
-            if (item.firstname != null)
-            {
-                u.firstName = item.firstname;
-            }
-            if (item.password != null)
-            {
-                u.password = item.password;
-            }
-            _dbContext.Update(u);
-            _dbContext.SaveChanges();
-            return _mapper.Map<UserDTO>(u);
+            var n = _mapper.Map<User>(item);
+            var res = _repository.UpdateUser(n);
+            return _mapper.Map<UserDTO>(res);
         }
     }
 }

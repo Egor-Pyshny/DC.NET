@@ -11,6 +11,7 @@ namespace RV.Services.Mappers
         {
             CreateMap<News, NewsDTO>();
             CreateMap<NewsAddDTO, News>().ReverseMap();
+            CreateMap<News, NewsUpdateDTO>().ReverseMap();
         }
     }
 }

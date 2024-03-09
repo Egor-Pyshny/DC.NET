@@ -10,6 +10,7 @@ namespace RV.Services.Mappers
         {
             CreateMap<Note, NoteDTO>();
             CreateMap<NoteAddDTO, Note>().ReverseMap();
+            CreateMap<Note, NoteUpdateDTO>().ReverseMap();
         }
     }
 }
