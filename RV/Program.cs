@@ -26,7 +26,7 @@ builder.Services.AddTransient<IRepository<Sticker>, SQLStickerRepository>();
 builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
 builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();
 //builder.Services.AddTransient<INoteDataProvider, SQLNoteDataProvider>();
-builder.Services.AddTransient<INoteDataProvider, NoteDataProvider>();
+builder.Services.AddTransient<INoteDataProvider, KafkaNoteDataProvider>();
 builder.Services.AddTransient<IStickerDataProvider, SQLStickerDataProvider>();
 
 builder.Services.AddTransient<IDataProvider, DataProvider>();

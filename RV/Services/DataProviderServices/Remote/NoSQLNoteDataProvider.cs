@@ -1,15 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using Confluent.Kafka;
+using Newtonsoft.Json;
 using RestSharp;
+using RV.Models;
 using RV.Views.DTO;
 
 namespace RV.Services.DataProviderServices.Remote
 {
-    public class NoteDataProvider : INoteDataProvider
+    public class NoSQLNoteDataProvider : INoteDataProvider
     {
         public NoteDTO CreateNote(NoteAddDTO item)
         {
             var client = new RestClient("http://localhost:24130/api/v1.0/");
             var request = new RestRequest("notes", Method.Post);
+            var rand = new Random();
+            item.id = rand.Next();
             request.AddBody(item, ContentType.Json);
             var response = client.Execute(request);
             var res = JsonConvert.DeserializeObject<NoteDTO>(response.Content);
