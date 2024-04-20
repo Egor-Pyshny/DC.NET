@@ -31,5 +31,7 @@
 # **Task 6**
 
 ![image](https://github.com/Egor-Pyshny/DC.NET/assets/92670900/6868d9e2-3e93-46e6-bdb0-72aad34cec78)
+
 **Была добавлена аутентификация через jwt токен для модуля discussion**
+
 ![image](https://github.com/Egor-Pyshny/DC.NET/assets/92670900/38e8ba04-e6a2-4446-91bb-ec9bea137308)
