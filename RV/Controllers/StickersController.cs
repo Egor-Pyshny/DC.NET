@@ -67,8 +67,13 @@ namespace RV.Controllers
         [HttpPost]
         public IActionResult PostSticker([FromBody] StickerAddDTO sticker)
         {
-            try { 
-                return StatusCode(201, _context.CreateSticker(sticker));
+            try {
+                var newSticker = _context.CreateSticker(sticker);
+                _cache.SetString("sticker_" + newSticker.id.ToString(), JsonConvert.SerializeObject(newSticker), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+                return StatusCode(201, newSticker);
             }
             catch (DbUpdateException ex)
             {

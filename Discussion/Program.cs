@@ -24,7 +24,7 @@ builder.Services.AddTransient<IDataProvider, DataProvider>();
 
 builder.Services.AddControllers();
 
-/*builder.Services.AddAuthentication("Bearer")
+builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = "http://identity:8080";
@@ -41,7 +41,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "api1");
     });
-});*/
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

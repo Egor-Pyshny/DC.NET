@@ -66,7 +66,12 @@ namespace RV.Controllers
         {
             try
             {
-                return StatusCode(201, _context.CreateUser(user));
+                var newUser = _context.CreateUser(user);
+                _cache.SetString("user_" + newUser.id.ToString(), JsonConvert.SerializeObject(newUser), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+                return StatusCode(201, newUser);
             }
             catch (DbUpdateException ex)
             {                

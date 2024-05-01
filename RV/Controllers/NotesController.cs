@@ -67,9 +67,13 @@ namespace RV.Controllers
         public IActionResult PostNote([FromBody] NoteAddDTO note)
         {
             try
-            { 
-
-                return StatusCode(201, _context.CreateNote(note));
+            {
+                var newNote = _context.CreateNote(note);
+                _cache.SetString("note_" + newNote.id.ToString(), JsonConvert.SerializeObject(newNote), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
+                return StatusCode(201, newNote);
             }
             catch (DbUpdateException ex)
             {
