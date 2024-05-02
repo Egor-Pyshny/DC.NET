@@ -16,10 +16,11 @@ namespace RV.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var masterConnectionString = new NpgsqlConnectionStringBuilder();
-            masterConnectionString.Host = "mypostgres";
+            masterConnectionString.Host = "localhost";
             masterConnectionString.Port = 5432;
             masterConnectionString.Username = "postgres";
             masterConnectionString.Password = "postgres";
+            masterConnectionString.Database = "distcomp";
             optionsBuilder.UseNpgsql(masterConnectionString.ConnectionString);
         }
 

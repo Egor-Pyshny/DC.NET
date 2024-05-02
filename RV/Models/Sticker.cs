@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RV.Models
 {
-    [Table("tbl_Sticker")]
+    [Table("tbl_sticker")]
     public class Sticker
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

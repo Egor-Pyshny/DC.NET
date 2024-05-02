@@ -12,10 +12,11 @@ using Npgsql;
 var builder = WebApplication.CreateBuilder(args);
 
 var masterConnectionString = new NpgsqlConnectionStringBuilder();
-masterConnectionString.Host = "mypostgres";
+masterConnectionString.Host = "localhost";
 masterConnectionString.Port = 5432;
 masterConnectionString.Username = "postgres";
 masterConnectionString.Password = "postgres";
+masterConnectionString.Database = "distcomp";
 using (var connection = new NpgsqlConnection(masterConnectionString.ConnectionString))
 { 
     connection.Open();
@@ -61,7 +62,7 @@ builder.Services.AddAutoMapper(typeof(NoteMapper));
 builder.Services.AddAutoMapper(typeof(StickerMapper));
 
 builder.Services.AddStackExchangeRedisCache(options => {
-    options.Configuration = "redis:6379";
+    options.Configuration = "localhost:6379";
     options.InstanceName = "local";
 });
 // Add services to the container.

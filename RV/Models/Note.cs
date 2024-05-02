@@ -4,7 +4,7 @@ using RV.Models;
 
 namespace RV.Models
 {
-    [Table("tbl_Note")]
+    [Table("tbl_note")]
     public class Note
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RV.Models
 {
-    [Table("tbl_News")]
+    [Table("tbl_news")]
     public class News
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,6 +12,7 @@ namespace RV.Models
 
         [ForeignKey("User")]
         [Required]
+        [Column("user_id")]
         public int userId { get; set; }
 
         [MaxLength(64)]

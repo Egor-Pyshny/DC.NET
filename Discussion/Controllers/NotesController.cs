@@ -7,7 +7,7 @@ namespace Discussion.Controllers
 {
     [Route("api/v1.0/notes")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class NotesController : ControllerBase
     {
         private readonly IDataProvider _context;
