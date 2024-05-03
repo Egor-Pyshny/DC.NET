@@ -12,7 +12,7 @@ using Npgsql;
 var builder = WebApplication.CreateBuilder(args);
 
 var masterConnectionString = new NpgsqlConnectionStringBuilder();
-masterConnectionString.Host = "localhost";
+masterConnectionString.Host = "mypostgres";
 masterConnectionString.Port = 5432;
 masterConnectionString.Username = "postgres";
 masterConnectionString.Password = "postgres";
@@ -50,8 +50,8 @@ builder.Services.AddTransient<IRepository<Sticker>, SQLStickerRepository>();
 
 builder.Services.AddTransient<IUserDataProvider, SQLUserDataProvider>();
 builder.Services.AddTransient<INewsDataProvider, SQLNewsDataProvider>();
-builder.Services.AddTransient<INoteDataProvider, NoSQLNoteDataProvider>();
-//builder.Services.AddTransient<INoteDataProvider, KafkaNoteDataProvider>();
+//builder.Services.AddTransient<INoteDataProvider, NoSQLNoteDataProvider>();
+builder.Services.AddTransient<INoteDataProvider, KafkaNoteDataProvider>();
 builder.Services.AddTransient<IStickerDataProvider, SQLStickerDataProvider>();
 
 builder.Services.AddTransient<IDataProvider, DataProvider>();
@@ -62,7 +62,7 @@ builder.Services.AddAutoMapper(typeof(NoteMapper));
 builder.Services.AddAutoMapper(typeof(StickerMapper));
 
 builder.Services.AddStackExchangeRedisCache(options => {
-    options.Configuration = "localhost:6379";
+    options.Configuration = "redis:6379";
     options.InstanceName = "local";
 });
 // Add services to the container.

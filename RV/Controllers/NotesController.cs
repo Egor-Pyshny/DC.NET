@@ -68,6 +68,8 @@ namespace RV.Controllers
         {
             try
             {
+                if (note.content.Length < 2 || _context.GetNew(note.newsId) == null)
+                    throw new DbUpdateException();
                 var newNote = _context.CreateNote(note);
                 _cache.SetString("note_" + newNote.id.ToString(), JsonConvert.SerializeObject(newNote), new DistributedCacheEntryOptions
                 {

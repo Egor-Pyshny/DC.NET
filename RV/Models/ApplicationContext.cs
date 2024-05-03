@@ -16,7 +16,7 @@ namespace RV.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var masterConnectionString = new NpgsqlConnectionStringBuilder();
-            masterConnectionString.Host = "localhost";
+            masterConnectionString.Host = "mypostgres";
             masterConnectionString.Port = 5432;
             masterConnectionString.Username = "postgres";
             masterConnectionString.Password = "postgres";
